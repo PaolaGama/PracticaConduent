@@ -80,7 +80,7 @@ export class AppComponent {
       numAlumnos ++;
     }
     this.asignarValoresGrafica();
-    this.X();
+    this.obtenerMejorPeorAlumno();
     this.promedioGeneral = acumulador / numAlumnos;
     
   }
@@ -94,7 +94,7 @@ export class AppComponent {
     ]
   }
 
-  X(){
+  obtenerMejorPeorAlumno(){
     this.calMejorAlumno =  this.arregloAlumnos[0].Calificacion;
     this.nomMejorAlumno = this.arregloAlumnos[0]['Nombres']+' '+this.arregloAlumnos[0]['Apellido Paterno']+' '+this.arregloAlumnos[0]['Apellido Materno'];
     this.calPeorAlumno = this.arregloAlumnos[0].Calificacion;
