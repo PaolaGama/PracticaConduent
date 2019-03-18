@@ -1,37 +1,22 @@
-# MdbAngularFree
+NOTA:
+EL PROYECTO ESTA CREADO EN ANGULAR 5 
+CON LA VERSION DE ANGULAR CLI 1.7.4
+VERSION DE NODE JS 11.6.0
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0-rc.5.
+COMANDO PARA VERIFICAR VERSION DE ANGULAR
+'ng -v'
 
-## Development server
+PASO 1 
+DEBEN DE COLOCAR EL PROYECTO EN CUALQUIER DIRECTORIO EN MI CASO LO PUSE EN C:
 
-Run `ng serve mdb-angular-free` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+PASO 2
+ABRIR CMD Y NAVEGAR HACIA LA CARPETA DONDE GUARDAMOS EL PROYECTO
 
-## Demo application
+PASO 3
+UNA VEZ YA DENTRO DE LA CARPETA DEL PROYECTO DEBEMOS TECLEAR EL SIGUIENTE COMANDO
+'npm install'
+EMPEZARA A INSTALAR LAS LIBRERIAS NECESARIAS QUE YA TRAE EL PROYECTO
 
-Run `ng serve mdb-demo` for a demo application build with MDB Angular Pro components.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
-## Remove demo application
-
-Type one of the below commands to remove demo application from this project:
-* npm run remove-demo-unix to remove demo application on UNIX based systems,
-* npm run remove-demo-windows to remove demo application on Windows systems.
+PASO 4
+LEVANTAR EL SERVIDOR DE ANGULAR CON EL COMANDO
+'ng serve -open'
