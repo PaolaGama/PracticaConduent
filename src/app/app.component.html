@@ -1,14 +1,14 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12" align="center">
-    <h1>PRACTICA CONDUENT</h1>
+    <h1>PRÁCTICA CONDUENT</h1>
   </div>
 </div>
 
 <div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12" align="center">
-      <h6>Paola Geraldine Gama Díaz</h6>
-    </div>
+  <div class="col-md-12 col-sm-12 col-xs-12" align="center">
+    <h6>Paola Geraldine Gama Díaz</h6>
   </div>
+</div>
 
 <div class="row" style="margin-top:5%">
   <div class="offset-sm-1 col-sm-8 offset-md-1 col-md-8">
@@ -17,13 +17,13 @@
       <div class="custom-file">
         <input type="file" class="custom-file-input" id="inputGroupFile01" 
         aria-describedby="inputGroupFileAddon01" (change)="cargarArchivo($event)" accept=".xlsx">
-        <label *ngIf="nombreArchivo == '' " class="custom-file-label" for="inputGroupFile01">Seleccione un archivo para graficar</label>
+        <label *ngIf="nombreArchivo == '' " class="custom-file-label" for="inputGroupFile01">Seleccione un archivo</label>
         <label *ngIf="nombreArchivo != '' " class="custom-file-label" for="inputGroupFile01">{{nombreArchivo}}</label>
       </div>
     </div>
   </div>
   <div class="col-md-2 col-sm-2">
-      <button (click)="leerInfo()" mdbBtn type="button" gradient="aqua" rounded="true" mdbWavesEffect>Cargar Información</button>
+    <button (click)="leerInfo()" mdbBtn type="button" gradient="aqua" rounded="true" mdbWavesEffect>Cargar Información</button>
   </div>
 </div>
 
@@ -34,17 +34,36 @@
     <strong><span>Peor Alumno: {{nomPeorAlumno}}</span><span> con {{calPeorAlumno}} </span></strong>
   </div>
 </div>
-
   
 <div *ngIf="promedioGeneral != 0">
+  <!--Chart Calificaciones Generales-->
+  <div class="row">
+      <div class="offset-md-1 col-md-10">
+        <div style="display: block">
+            <canvas mdbChart
+                [chartType]="chartTypeGeneral"
+                [datasets]="chartDatasetsGeneral"
+                [labels]="chartLabelsGeneral"
+                [colors]="chartColorsGeneral"
+                [options]="chartOptionsGeneral"
+                [legend]="true"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+            </canvas>
+          </div>
+      </div>
+  </div>
+  <!--Fin Chart Calificaciones Generales-->
+  <br>
+  <!--Chart Promedio por Grado-->
   <div class="row">
     <div class="offset-md-1 col-md-10">
         <div style="display: block">
             <canvas mdbChart
-                [chartType]="chartType"
-                [datasets]="chartDatasets"
-                [labels]="chartLabels"
-                [colors]="chartColors"
+                [chartType]="chartTypeGrado"
+                [datasets]="chartDatasetsGrado"
+                [labels]="chartLabelsGrado"
+                [colors]="chartColorsGrado"
                 [options]="chartOptions"
                 [legend]="true"
                 (chartHover)="chartHovered($event)"
@@ -53,8 +72,8 @@
         </div>
     </div>
   </div>
+<!--Fin Chart Promedio por Grado-->
 </div>
-
 
 <button [hidden]="true" id="modalbutton" type="button" mdbBtn color="primary" class="relative waves-light" (click)="basicModal.show()" mdbWavesEffect>Launch demo modal</button>
 <div  mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
@@ -67,7 +86,7 @@
         <h4 class="modal-title w-100" id="myModalLabel">Error</h4>
       </div>
       <div class="modal-body">
-        Debe cargar un archivo excel para poder realizar las operaciones y graficar !
+        Debe cargar un archivo Excel para cargar los datos !
       </div>
       <div class="modal-footer">
         <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Cerrar</button>

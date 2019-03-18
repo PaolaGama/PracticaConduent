@@ -18,36 +18,78 @@ export class AppComponent {
   nomMejorAlumno: string = '';
   nomPeorAlumno: string = '';
   mostrarModal:boolean = false;
-  public chartType: string = 'line';
-
-  chartDatasets: Array<any> = [
-    { 
-      data: [], 
-      label: '' 
-    }
-  ];
-
-  public chartLabels: Array<any> = [];
-
-  public chartColors: Array<any> = [
-    {
-      backgroundColor: 'rgba(105, 0, 132, .2)',
-      borderColor: 'rgba(200, 99, 132, .7)',
-      borderWidth: 2,
-    }
-  ];
-
+  //promedio por grado
+  promedioPrimerGrado: number = 0;
+  promedioSegundoGrado: number = 0;
+  promedioTercerGrado: number = 0;
+  promedioPorGrado :any[] = [];
+  //grafica
   public chartOptions: any = {
     responsive: true
   };
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
+  
+  /**Grafica Calificaciones Generales */
+  public chartTypeGeneral: string = 'bar';
 
+  public chartDatasetsGeneral: Array<any> = [
+    { 
+      data: [], 
+      label: '' }
+  ];
+
+  public chartLabelsGeneral: Array<any> = [];
+
+  /**Asigna los valores a graficar */
+  asignarValoresGraficaGeneral(){
+    this.chartDatasetsGeneral = [
+      {
+      data : this.calificacionesAlumno,
+      label: 'Calificaciones de Alumnos' 
+      }
+    ]
+  }
+  /**Fin Grafica Calificaciones Generales */
+
+  /**Grafica Promedio por Grado*/
+  public chartTypeGrado: string = 'pie';
+  
+  chartDatasetsGrado: Array<any> = [
+    { 
+      data: [], 
+      label: '' 
+    }
+  ];
+  
+  public chartLabelsGrado: Array<any> = ['1er Grado', '2do Grado', '3er Grado'];
+
+  public chartColorsGrado: Array<any> = [
+    {
+      backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C'],
+      hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870'],
+      borderWidth: 2,
+    }
+  ];
+
+  /**Asigna los valores a graficar */
+  asignarValoresGraficaGrado(){
+    this.chartDatasetsGrado = [
+      {
+       data : this.promedioPorGrado,
+       label: 'Promedio por Grado' 
+      }
+    ]
+  }
+  /**Fin Grafica Promedio por Grado */
+
+  /**Carga archivo en memoria */
   cargarArchivo(event){
     this.archivo = event.target.files[0];
     this.nombreArchivo = this.archivo.name;
   }
 
+  /**Lee los datos del archivo Excel */
   leerInfo(){
     if(this.archivo){
       let fileReader = new FileReader();
@@ -62,6 +104,7 @@ export class AppComponent {
           var hojaExcel = workbook.Sheets[nombreHojaExcel];
           this.arregloAlumnos = XLSX.utils.sheet_to_json(hojaExcel,{raw:true});
           this.calcularPromedioAlumnos();
+          this.obtenerPromedioPorGrado();
       }
       fileReader.readAsArrayBuffer(this.archivo);
     }else{
@@ -70,30 +113,23 @@ export class AppComponent {
 
   }
 
+  /**Calcula el promedio general de los alumnos */
   calcularPromedioAlumnos(){
     let acumulador = 0;
     let numAlumnos = 0;
     for(let i = 0;i<this.arregloAlumnos.length;i++){
-      this.chartLabels[i] = this.arregloAlumnos[i].Nombres;
+      this.chartLabelsGeneral[i] = this.arregloAlumnos[i].Nombres;
       this.calificacionesAlumno[i] = this.arregloAlumnos[i].Calificacion;
       acumulador += this.arregloAlumnos[i].Calificacion;
       numAlumnos ++;
     }
-    this.asignarValoresGrafica();
+    this.asignarValoresGraficaGeneral();
     this.obtenerMejorPeorAlumno();
     this.promedioGeneral = acumulador / numAlumnos;
     
   }
 
-  asignarValoresGrafica(){
-    this.chartDatasets = [
-      {
-       data : this.calificacionesAlumno,
-       label: 'Calificaciones de Alumnos' 
-      }
-    ]
-  }
-
+  /**Obtiene el nombre completo y calificacion del peor y mejor alumno */
   obtenerMejorPeorAlumno(){
     this.calMejorAlumno =  this.arregloAlumnos[0].Calificacion;
     this.nomMejorAlumno = this.arregloAlumnos[0]['Nombres']+' '+this.arregloAlumnos[0]['Apellido Paterno']+' '+this.arregloAlumnos[0]['Apellido Materno'];
@@ -113,10 +149,37 @@ export class AppComponent {
       }
 
     }
-    console.log(this.arregloAlumnos[0]['Nombres']+' '+this.arregloAlumnos[0]['Apellido Materno']+' '+this.arregloAlumnos[0]['Apellido Paterno']);
   }
 
-  
-
+  /**Obtener Promedio por Grado */
+  obtenerPromedioPorGrado(){
+    let contPrimerGrado = 0, acumPrimerGrado = 0;
+    let contSegundoGrado = 0, acumSegundoGrado = 0;
+    let contTercerGrado = 0, acumTercerGrado = 0;
+    for(let i = 0;i<this.arregloAlumnos.length;i++){
+        switch (this.arregloAlumnos[i].Grado){
+          case 1:
+            acumPrimerGrado += this.arregloAlumnos[i].Calificacion;
+            contPrimerGrado ++;
+            break;
+          case 2:
+            acumSegundoGrado += this.arregloAlumnos[i].Calificacion;
+            contSegundoGrado ++;
+            break;
+          case 3:
+            acumTercerGrado += this.arregloAlumnos[i].Calificacion;
+            contTercerGrado ++;
+            break;
+        }
+      }
+    this.promedioPrimerGrado = acumPrimerGrado / contPrimerGrado;
+    this.promedioSegundoGrado = acumSegundoGrado / contSegundoGrado;
+    this.promedioTercerGrado = acumTercerGrado / contTercerGrado;
+    Array.prototype.push.apply(
+      this.promedioPorGrado, [this.promedioPrimerGrado, this.promedioSegundoGrado, this.promedioTercerGrado])
+      //console.log(this.promedioPorGrado);
+      this.asignarValoresGraficaGrado();
+    }
     
-}
+  }
+
